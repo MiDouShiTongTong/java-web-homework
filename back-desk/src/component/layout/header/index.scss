@@ -1,0 +1,34 @@
+.layout-header-container {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  width: 100%;
+  height: 65px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 21, 31, .5);
+  .nav-container {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    .nav-item {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      transition: background-color .3s;
+      &:hover {
+        background-color: rgba(0, 0, 0, .025);
+        cursor: pointer;
+      }
+    }
+    .current-sign-in-user {
+      span {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+    }
+  }
+}

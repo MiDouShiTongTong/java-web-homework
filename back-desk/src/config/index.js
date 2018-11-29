@@ -1,5 +1,5 @@
-import dev from '@/config/dev.env';
-import prod from '@/config/prod.env';
+import dev from './dev.env';
+import prod from './prod.env';
 
 export default {
   API_ROOT: process.env.NODE_ENV === 'development'

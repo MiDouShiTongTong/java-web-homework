@@ -1,4 +1,4 @@
-import api from '@/api';
+import api from '../../api';
 
 // action type
 const UPDATE_USER_INFO = 'updateUserInfo';

@@ -1,5 +1,5 @@
-import ajax from '@/util/ajax';
-import config from '@/config';
+import ajax from '../../util/ajax';
+import config from '../../config';
 
 /**
  * 账户相关接口
