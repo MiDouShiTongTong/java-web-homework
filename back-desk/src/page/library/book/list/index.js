@@ -9,13 +9,13 @@ export default connect(
   // mapDispatchToProps
   {}
 )(
-  class UserUserOperator extends React.Component {
+  class LibraryBookList extends React.Component {
     state = {};
 
     render() {
       return (
-        <section className="operator-container">
-          user-user-operator-container
+        <section className="library-book-list-container">
+          library-book-list-container
         </section>
       );
     }

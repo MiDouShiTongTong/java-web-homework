@@ -10,7 +10,7 @@ export default connect(
   // mapDispatchToProps
   {}
 )(
-  class User extends React.Component {
+  class Library extends React.Component {
     state = {
       // 控制是否可以渲染
       isRender: true
@@ -20,7 +20,7 @@ export default connect(
       const { state, props } = this;
       if (state.isRender) {
         return (
-          <section className="user-container">
+          <section className="library-container">
             {renderRoutes(props.route.routes)}
           </section>
         );

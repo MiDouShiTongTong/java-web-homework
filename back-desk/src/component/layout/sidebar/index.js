@@ -30,34 +30,34 @@ export default withRouter(connect(
         {
           key: '2',
           icon: 'user',
-          name: '用户管理',
+          name: '用户',
           children: [
             {
               key: '2-1',
-              name: '用户列表',
-              path: '/user/user/list'
+              name: '个人用户',
+              path: '/user/person/list'
             },
           ]
         },
         {
           key: '3',
           icon: 'desktop',
-          name: '图书管理',
+          name: '图书',
           children: [
             {
               key: '3-1',
-              name: '分类管理',
-              path: '/book/category/list'
+              name: '图书分类',
+              path: '/library/category/list'
             },
             {
               key: '3-2',
-              name: '图书管理',
-              path: '/book/book/list'
+              name: '图书信息',
+              path: '/library/book/list'
             },
             {
               key: '3-3',
-              name: '借阅管理',
-              path: '/book/borrow/list'
+              name: '图书借阅',
+              path: '/library/borrow/list'
             }
           ]
         }
@@ -65,7 +65,7 @@ export default withRouter(connect(
     };
 
     /**
-     * 获取当前菜单的 key
+     * 获取 当前的 url 对应的菜单
      *
      * @returns null
      */
@@ -78,19 +78,24 @@ export default withRouter(connect(
 
       let selectKey = null;
       state.sideBarMenuList.forEach(menuItem => {
-        return menuItem.children.forEach(menuItemChildItem => {
+        if (selectKey) {
+          // 已找到对应的菜单退出循环
+          return false;
+        }
+        menuItem.children.forEach(menuItemChildItem => {
           let menuPathName = '';
           const menuPathNameArr = menuItemChildItem.path.split('/');
           menuPathName += menuPathNameArr[1];
           menuPathName += menuPathNameArr[2];
           if (currentMenuPathName === menuPathName) {
             selectKey = menuItemChildItem;
-            return true;
+            // 已找到对应的菜单退出循环
+            return false;
           }
         });
       });
 
-      return selectKey.key;
+      return selectKey != null ? selectKey.key : '1';
     };
 
     render() {
@@ -108,6 +113,7 @@ export default withRouter(connect(
           >
             {state.sideBarMenuList.map(sideBarMenuListItem => {
               return (
+                // 一级路由
                 <Menu.SubMenu
                   key={sideBarMenuListItem.key}
                   title={
@@ -118,9 +124,15 @@ export default withRouter(connect(
                   }>
                   {sideBarMenuListItem.children.map(sideBarMenuListItemChildrenItem => {
                     return (
+                      // 二级路由
                       <Menu.Item
                         key={sideBarMenuListItemChildrenItem.key}
-                        onClick={() => props.history.push(sideBarMenuListItemChildrenItem.path)}>
+                        onClick={() => {
+                          // 刷新路由 如果当前路由和菜单点击的路由相同则不触发
+                          if (props.location.pathname !== sideBarMenuListItemChildrenItem.path) {
+                            props.history.push(sideBarMenuListItemChildrenItem.path);
+                          }
+                        }}>
                         {sideBarMenuListItemChildrenItem.name}
                       </Menu.Item>
                     );

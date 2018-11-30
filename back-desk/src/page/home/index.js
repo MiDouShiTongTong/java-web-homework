@@ -1,9 +1,6 @@
 import React from 'react';
+import { renderRoutes } from 'react-router-config';
 import { connect } from 'react-redux';
-
-// 非路由组件
-import RouteList from '../../component/route-list';
-import HomeWelcome from '../../page/home/welcome';
 
 export default connect(
   // mapStateToProps
@@ -15,34 +12,21 @@ export default connect(
 )(
   class Home extends React.Component {
     state = {
-      routeList: [
-        {
-          path: '/home',
-          redirect: '/home/welcome',
-          exact: true
-        },
-        {
-          path: '/home/welcome',
-          component: HomeWelcome,
-          componentProps: {},
-          exact: true
-        }
-      ],
       // 控制是否可以渲染
       isRender: true
     };
 
     render() {
-      const { state } = this;
+      const { state, props } = this;
       if (state.isRender) {
         return (
-          <div className="home-container">
-            <RouteList routeList={state.routeList}/>
-          </div>
+          <section className="home-container">
+            {renderRoutes(props.route.routes)}
+          </section>
         );
       } else {
         return (
-          <div className="alter">当前状态不可渲染！</div>
+          <section className="alter">当前状态不可渲染！</section>
         );
       }
     }

@@ -1,8 +1,7 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 
-export default withRouter(connect(
+export default connect(
   // mapStateToProps
   state => {
     return {};
@@ -10,15 +9,15 @@ export default withRouter(connect(
   // mapDispatchToProps
   {}
 )(
-  class HomeWelcome extends React.Component {
+  class LibraryBookOperator extends React.Component {
     state = {};
 
     render() {
       return (
-        <section className="home-welcome-container">
-          空空如也~
+        <section className="library-book-operator-container">
+          library-book-operator-container
         </section>
       );
     }
   }
-));
+);
