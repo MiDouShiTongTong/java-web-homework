@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Divider, Table } from 'antd';
+import { Divider, Table, notification, Modal, Button, Col, Form, Row, Input } from 'antd';
+import api from '../../../../api';
 
 export default connect(
   // mapStateToProps
@@ -11,55 +12,170 @@ export default connect(
   // mapDispatchToProps
   {}
 )(
-  class UserPersonList extends React.Component {
-    state = {
-      column: [
-        { title: 'Name', dataIndex: 'name' },
-        { title: 'Age', dataIndex: 'age' },
-        { title: 'Address', dataIndex: 'address' },
-        {
-          title: 'Action', dataIndex: 'action', render: (text, record) => (
-            <span>
-              <Link to="/user/person/operator">编辑</Link>
+  Form.create()(
+    class UserPersonList extends React.Component {
+      state = {
+        columns: [
+          { title: '用户名', dataIndex: 'username' },
+          {
+            title: '性别', dataIndex: 'gender', render: (text, record) => (
+              <span>{text === 1 ? '男' : '女'}</span>
+            )
+          },
+          { title: '创建日期', dataIndex: 'createdAt' },
+          { title: '最后修改日期', dataIndex: 'updatedAt' },
+          {
+            title: '操作', dataIndex: 'action', render: (text, record) => (
+              <span>
+              <Link to={`/user/person/operator/${record.id}`}>编辑</Link>
               <Divider type="vertical"/>
-              <Link to="/user/person/operator">
-                删除
-              </Link>
+              <a onClick={() => this.deleteData(record)}>删除</a>
             </span>
-          )
-        }
-      ],
-      data: [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-      }]
-    };
+            )
+          }
+        ],
+        dataSource: [],
+        pagination: {
+          current: 1,
+          pageSize: 10,
+          showSizeChanger: true,
+          pageSizeOptions: ['10', '20', '100']
+        },
+        searchCondition: {},
+        loading: false
+      };
 
-    render() {
-      const { state } = this;
-      return (
-        <section className="user-person-list-container">
-          <Table
-            columns={state.column}
-            dataSource={state.data}
-            pagination={false}/>
-        </section>
-      );
+      componentDidMount = async () => {
+        // 刷新表格数据
+        this.refreshData();
+      };
+
+      refreshData = async () => {
+        const { state } = this;
+
+        // loading
+        this.setState({ loading: true });
+
+        // 获取远程数据
+        const result = await api.person.selectPersonList({
+          current: state.pagination.current,
+          size: state.pagination.pageSize,
+          ...state.searchCondition
+        });
+
+        // 获取成功, 刷新数据
+        const pagination = { ...state.pagination };
+        pagination.total = result.data.total;
+        this.setState({
+          loading: false,
+          dataSource: result.data.records,
+          pagination
+        });
+      };
+
+      deleteData = (record) => {
+        const { state } = this;
+        Modal.confirm({
+          title: '确认删除此条记录？',
+          content: record.username,
+          onOk: async () => {
+            // loading
+            this.setState({ loading: true });
+            await api.person.deletePersonById(record.id);
+            // 刷新表格数据
+            this.refreshData();
+          },
+          onCancel() {
+            console.log('Cancel');
+          },
+        });
+      };
+
+      handleSearch = (e) => {
+        e.preventDefault();
+        const { state, props } = this;
+        props.form.validateFields(async (error, valueList) => {
+          if (!error) {
+            // 保存搜索条件
+            state.pagination.current = 1;
+            state.searchCondition = valueList;
+            // 刷新表格数据
+            this.refreshData();
+          }
+        });
+      };
+
+      handleReset = () => {
+        const { state, props } = this;
+        // 保存搜索条件
+        state.searchCondition = {};
+        props.form.resetFields();
+        // 刷新表格数据
+        this.refreshData();
+      };
+
+      handleTableChange = (currentPagination, filters, sorter) => {
+        const { state } = this;
+        // 刷新分页数据
+        state.pagination = currentPagination;
+
+        // 获取表格数据
+        this.refreshData();
+      };
+
+      getOperationContainer = () => {
+        const { props } = this;
+        return (
+          <section className="operation-container">
+            <section className="search-container">
+              <Form onSubmit={this.handleSearch}>
+                <Row gutter={24} className="search-field-container">
+                  <Col md={8}>
+                    <Form.Item label="用户名">
+                      {props.form.getFieldDecorator('username', {
+                        rules: [{
+                          required: true,
+                          message: '请输入用户名',
+                        }],
+                      })(
+                        <Input/>
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col md={8} className="search-action-container">
+                    <Button type="primary" htmlType="submit">搜索</Button>
+                    <Button onClick={this.handleReset}>重置</Button>
+                  </Col>
+                </Row>
+              </Form>
+            </section>
+            <section className="data-action-container">
+              <Link to="/user/person/operator">
+                <Button icon="plus" type="primary">添加</Button>
+              </Link>
+            </section>
+          </section>
+        );
+      };
+
+      render() {
+        const { state } = this;
+        return (
+          <section className="user-person-list-container">
+            {this.getOperationContainer()}
+
+            <section className="data-container">
+              <Table
+                columns={state.columns}
+                rowKey={record => record.id}
+                dataSource={state.dataSource}
+                pagination={state.pagination}
+                loading={state.loading}
+                onChange={this.handleTableChange}/>
+            </section>
+          </section>
+        );
+      }
     }
-  }
+  )
 );

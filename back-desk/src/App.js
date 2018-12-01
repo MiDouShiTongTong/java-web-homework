@@ -79,7 +79,7 @@ export default connect(
                     {
                       path: '/user/person/operator/:id',
                       component: UserPersonOperator,
-                      breadcrumb: '修改'
+                      breadcrumb: '编辑'
                     },
                     {
                       path: '/user/person/operator',
@@ -109,7 +109,7 @@ export default connect(
                     {
                       path: '/library/category/operator/:id',
                       component: LibraryCategoryOperator,
-                      breadcrumb: '修改'
+                      breadcrumb: '编辑'
                     },
                     {
                       path: '/library/category/operator',
@@ -131,7 +131,7 @@ export default connect(
                     {
                       path: '/library/book/operator/:id',
                       component: LibraryBookOperator,
-                      breadcrumb: '修改'
+                      breadcrumb: '编辑'
                     },
                     {
                       path: '/library/book/operator',
@@ -153,7 +153,7 @@ export default connect(
                     {
                       path: '/library/borrow/operator/:id',
                       component: LibraryBorrowOperator,
-                      breadcrumb: '修改'
+                      breadcrumb: '编辑'
                     },
                     {
                       path: '/library/borrow/operator',
