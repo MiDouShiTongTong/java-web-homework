@@ -10,6 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class BackDeskAuthInterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new BackDeskAuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/manager/**");
+        registry.addInterceptor(new BackDeskAuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/manager/**");
     }
 }

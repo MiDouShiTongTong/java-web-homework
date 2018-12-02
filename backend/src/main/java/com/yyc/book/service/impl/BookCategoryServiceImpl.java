@@ -27,6 +27,7 @@ public class BookCategoryServiceImpl extends ServiceImpl<BookCategoryMapper, Boo
         }
         // 构建分页条件
         Page<BookCategory> page = new Page<>(current, size);
+        page.setAsc("id");
         // 返回查询结果
         return new BookCategory().selectPage(page, queryWrapper);
     }

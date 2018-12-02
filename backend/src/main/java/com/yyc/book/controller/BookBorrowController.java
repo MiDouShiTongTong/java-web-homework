@@ -2,6 +2,7 @@ package com.yyc.book.controller;
 
 
 import com.yyc.book.domain.BookBorrow;
+import com.yyc.book.domain.BookBorrowVo;
 import com.yyc.book.service.IBookBorrowService;
 import com.yyc.book.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,12 @@ public class BookBorrowController {
 
     @GetMapping("")
     public Map selectBookBorrowList(
-        BookBorrow bookBorrow,
+        BookBorrowVo bookBorrowVo,
         @RequestParam(value = "current", defaultValue = "1") int current,
         @RequestParam(value = "size", defaultValue = "2000") int size
     ) {
         // 构建响应数据
-        return new Response("0", null, iBookBorrowService.selectBookBorrowList(bookBorrow, current, size)).getMap();
+        return new Response("0", null, iBookBorrowService.selectBookBorrowList(bookBorrowVo, current, size)).getMap();
     }
 
     @GetMapping("/{id}")

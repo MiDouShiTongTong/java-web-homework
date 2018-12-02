@@ -3,19 +3,16 @@ package com.yyc.book.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yyc.book.domain.Manager;
+import com.yyc.book.exception.CommonException;
 import com.yyc.book.util.Response;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author
@@ -25,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/manager")
 public class ManagerController {
     @PostMapping("/signIn")
-    public Map signIn(Manager manager, HttpServletRequest httpServletRequest) {
+    public Map signIn(@RequestBody Manager manager, HttpServletRequest httpServletRequest) {
         QueryWrapper<Manager> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", manager.getUsername());
         queryWrapper.eq("password", manager.getPassword());
@@ -38,6 +35,17 @@ public class ManagerController {
             return new Response("0", null, manager).getMap();
         } else {
             return new Response("1", "用户名或密码不正确！", manager).getMap();
+        }
+    }
+
+    @GetMapping("/userInfo")
+    public Map selectUserInfo(HttpServletRequest httpServletRequest) {
+        // 获取登陆用户的信息
+        Manager manager = (Manager) httpServletRequest.getSession().getAttribute("manager");
+        if (manager == null) {
+            return new Response("2", "用户未登录", null).getMap();
+        } else {
+            return new Response("0", null,  manager).getMap();
         }
     }
 

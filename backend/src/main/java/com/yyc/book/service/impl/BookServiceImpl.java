@@ -26,6 +26,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
     public IPage<BookVo> selectBookList(BookVo bookVo, int current, int size) {
         Page<BookVo> page = new Page<>(current, size);
+        page.setAsc("id");
         return baseMapper.selectBookList(page, bookVo);
     }
 

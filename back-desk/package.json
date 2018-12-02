@@ -8,6 +8,7 @@
     "babel-plugin-import": "^1.11.0",
     "material-icons": "^0.2.3",
     "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
     "prop-types": "^15.6.2",
     "rc-queue-anim": "^1.6.8",
     "rc-texty": "^0.2.0",

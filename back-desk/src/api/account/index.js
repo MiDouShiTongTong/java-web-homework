@@ -6,19 +6,11 @@ import config from '../../config';
  *
  */
 export default {
-  // 注册
-  signUp(data) {
-    return ajax(
-      'POST',
-      `${config.API_ROOT}/account/signUp`,
-      data
-    );
-  },
   // 登陆
   signIn(data) {
     return ajax(
       'POST',
-      `${config.API_ROOT}/account/signIn`,
+      `${config.API_ROOT}/manager/signIn`,
       data
     );
   },
@@ -26,7 +18,7 @@ export default {
   signOut() {
     return ajax(
       'GET',
-      `${config.API_ROOT}/account/signOut`,
+      `${config.API_ROOT}/manager/signOut`,
       {}
     );
   },
@@ -34,16 +26,8 @@ export default {
   selectUserInfo() {
     return ajax(
       'GET',
-      `${config.API_ROOT}/account/userInfo`,
+      `${config.API_ROOT}/manager/userInfo`,
       {}
-    );
-  },
-  // 修改用户信息
-  updateUserInfo(data) {
-    return ajax(
-      'PUT',
-      `${config.API_ROOT}/account/userInfo`,
-      data
     );
   }
 };

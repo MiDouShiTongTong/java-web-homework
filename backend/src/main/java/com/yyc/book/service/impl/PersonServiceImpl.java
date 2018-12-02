@@ -30,6 +30,7 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
         }
         // 构建分页条件
         Page<Person> page = new Page<>(current, size);
+        page.setAsc("id");
         // 返回查询结果
         return new Person().selectPage(page, queryWrapper);
     }

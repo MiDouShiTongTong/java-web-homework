@@ -3,25 +3,30 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
-import Master from "./component/layout/master";
-import Home from "./page/home";
-import HomeWelcome from "./page/home/welcome";
-import ErrorNotFound from "./component/error/not-found";
-import User from "./page/user";
-import UserPerson from "./page/user/person";
-import UserPersonList from "./page/user/person/list";
-import UserPersonOperator from "./page/user/person/operator";
-import Library from "./page/library";
-import LibraryCategory from "./page/library/category";
-import LibraryCategoryList from "./page/library/category/list";
-import LibraryCategoryOperator from "./page/library/category/operator";
-import LibraryBook from "./page/library/book";
-import LibraryBookList from "./page/library/book/list";
-import LibraryBookOperator from "./page/library/book/operator";
-import LibraryBorrow from "./page/library/borrow";
-import LibraryBorrowList from "./page/library/borrow/list";
-import LibraryBorrowOperator from "./page/library/borrow/operator";
+import { asyncUpdateUserInfo } from './store/account';
+import ErrorNotFound from './component/error/not-found';
+import LayoutMaster from './page/layout/master';
+import LayoutSystem from './page/layout/system';
+import LayoutAccount from './page/layout/account';
+import SystemHome from './page/system/home';
+import SystemHomeWelcome from './page/system/home/welcome';
+import SystemUser from './page/system/user';
+import SystemUserPerson from './page/system/user/person';
+import SystemUserPersonList from './page/system/user/person/list';
+import SystemUserPersonOperator from './page/system/user/person/operator';
+import SystemLibrary from './page/system/library';
+import SystemLibraryCategory from './page/system/library/category';
+import SystemLibraryCategoryList from './page/system/library/category/list';
+import SystemLibraryCategoryOperator from './page/system/library/category/operator';
+import SystemLibraryBook from './page/system/library/book';
+import SystemLibraryBookList from './page/system/library/book/list';
+import SystemLibraryBookOperator from './page/system/library/book/operator';
+import SystemLibraryBorrow from './page/system/library/borrow';
+import SystemLibraryBorrowList from './page/system/library/borrow/list';
+import SystemLibraryBorrowOperator from './page/system/library/borrow/operator';
+import AccountSignIn from './page/account/sign-in';
 import './App.scss';
+import 'nprogress/nprogress.css';
 
 export default connect(
   // mapStateToProps
@@ -29,155 +34,188 @@ export default connect(
     return {};
   },
   // mapDispatchToProps
-  {}
+  {
+    asyncUpdateUserInfo
+  }
 )(
   class App extends Component {
     state = {
       routeList: [
         {
-          component: Master,
+          // 根模块
+          path: '/',
+          component: LayoutMaster,
           routes: [
             {
-              path: '/',
-              component: () => <Redirect to="/home/welcome"/>,
-              // 允许子路由替换当前组件
-              exact: true
-            },
-            // 根模块
-            {
-              path: '/home',
-              component: Home,
-              breadcrumb: '仪表盘',
+              // 系统模块
+              path: '/system',
+              component: LayoutSystem,
               routes: [
+                // 仪表盘模块
                 {
-                  path: '/home/welcome',
-                  component: HomeWelcome,
-                  breadcrumb: '工作台'
-                },
-                {
-                  path: '',
-                  component: ErrorNotFound
-                }
-              ]
-            },
-            // 用户模块
-            {
-              path: '/user',
-              component: User,
-              breadcrumb: '用户',
-              routes: [
-                {
-                  path: '/user/person',
-                  component: UserPerson,
-                  breadcrumb: '个人用户',
+                  path: '/system/home',
+                  component: SystemHome,
+                  breadcrumb: '仪表盘',
                   routes: [
                     {
-                      path: '/user/person/list',
-                      component: UserPersonList,
-                      breadcrumb: '列表'
+                      path: '/system/home/welcome',
+                      component: SystemHomeWelcome,
+                      breadcrumb: '工作台'
                     },
                     {
-                      path: '/user/person/operator/:id',
-                      component: UserPersonOperator,
-                      breadcrumb: '编辑'
-                    },
-                    {
-                      path: '/user/person/operator',
-                      component: UserPersonOperator,
-                      breadcrumb: '添加'
-                    }
-                  ]
-                }
-              ]
-            },
-            // 图书模块
-            {
-              path: '/library',
-              component: Library,
-              breadcrumb: '图书',
-              routes: [
-                {
-                  path: '/library/category',
-                  component: LibraryCategory,
-                  breadcrumb: '图书分类',
-                  routes: [
-                    {
-                      path: '/library/category/list',
-                      component: LibraryCategoryList,
-                      breadcrumb: '列表'
-                    },
-                    {
-                      path: '/library/category/operator/:id',
-                      component: LibraryCategoryOperator,
-                      breadcrumb: '编辑'
-                    },
-                    {
-                      path: '/library/category/operator',
-                      component: LibraryCategoryOperator,
-                      breadcrumb: '添加'
+                      path: '',
+                      component: ErrorNotFound
                     }
                   ]
                 },
+                // 用户模块
                 {
-                  path: '/library/book',
-                  component: LibraryBook,
-                  breadcrumb: '图书信息',
+                  path: '/system/user',
+                  component: SystemUser,
+                  breadcrumb: '用户',
                   routes: [
                     {
-                      path: '/library/book/list',
-                      component: LibraryBookList,
-                      breadcrumb: '列表'
-                    },
-                    {
-                      path: '/library/book/operator/:id',
-                      component: LibraryBookOperator,
-                      breadcrumb: '编辑'
-                    },
-                    {
-                      path: '/library/book/operator',
-                      component: LibraryBookOperator,
-                      breadcrumb: '添加'
+                      path: '/system/user/person',
+                      component: SystemUserPerson,
+                      breadcrumb: '个人用户',
+                      routes: [
+                        {
+                          path: '/system/user/person/list',
+                          component: SystemUserPersonList,
+                          breadcrumb: '列表'
+                        },
+                        {
+                          path: '/system/user/person/operator/:id',
+                          component: SystemUserPersonOperator,
+                          breadcrumb: '编辑'
+                        },
+                        {
+                          path: '/system/user/person/operator',
+                          component: SystemUserPersonOperator,
+                          breadcrumb: '添加'
+                        }
+                      ]
                     }
                   ]
                 },
+                // 图书模块
                 {
-                  path: '/library/borrow',
-                  component: LibraryBorrow,
-                  breadcrumb: '图书借阅',
+                  path: '/system/library',
+                  component: SystemLibrary,
+                  breadcrumb: '图书',
                   routes: [
                     {
-                      path: '/library/borrow/list',
-                      component: LibraryBorrowList,
-                      breadcrumb: '列表'
+                      path: '/system/library/category',
+                      component: SystemLibraryCategory,
+                      breadcrumb: '图书分类',
+                      routes: [
+                        {
+                          path: '/system/library/category/list',
+                          component: SystemLibraryCategoryList,
+                          breadcrumb: '列表'
+                        },
+                        {
+                          path: '/system/library/category/operator/:id',
+                          component: SystemLibraryCategoryOperator,
+                          breadcrumb: '编辑'
+                        },
+                        {
+                          path: '/system/library/category/operator',
+                          component: SystemLibraryCategoryOperator,
+                          breadcrumb: '添加'
+                        }
+                      ]
                     },
                     {
-                      path: '/library/borrow/operator/:id',
-                      component: LibraryBorrowOperator,
-                      breadcrumb: '编辑'
+                      path: '/system/library/book',
+                      component: SystemLibraryBook,
+                      breadcrumb: '图书信息',
+                      routes: [
+                        {
+                          path: '/system/library/book/list',
+                          component: SystemLibraryBookList,
+                          breadcrumb: '列表'
+                        },
+                        {
+                          path: '/system/library/book/operator/:id',
+                          component: SystemLibraryBookOperator,
+                          breadcrumb: '编辑'
+                        },
+                        {
+                          path: '/system/library/book/operator',
+                          component: SystemLibraryBookOperator,
+                          breadcrumb: '添加'
+                        }
+                      ]
                     },
                     {
-                      path: '/library/borrow/operator',
-                      component: LibraryBorrowOperator,
-                      breadcrumb: '添加'
+                      path: '/system/library/borrow',
+                      component: SystemLibraryBorrow,
+                      breadcrumb: '图书借阅',
+                      routes: [
+                        {
+                          path: '/system/library/borrow/list',
+                          component: SystemLibraryBorrowList,
+                          breadcrumb: '列表'
+                        },
+                        {
+                          path: '/system/library/borrow/operator/:id',
+                          component: SystemLibraryBorrowOperator,
+                          breadcrumb: '编辑'
+                        },
+                        {
+                          path: '/system/library/borrow/operator',
+                          component: SystemLibraryBorrowOperator,
+                          breadcrumb: '添加'
+                        }
+                      ]
                     }
                   ]
                 }
               ]
+            },
+            {
+              path: '/account',
+              component: LayoutAccount,
+              routes: [
+                {
+                  path: '/account/signIn',
+                  component: AccountSignIn
+                }
+              ]
+            },
+            {
+              path: '',
+              component: () => <Redirect to='/system/home/welcome'/>
             }
           ]
         }
-      ]
+      ],
+      isRender: false
+    };
+
+    componentDidMount = async () => {
+      const { props } = this;
+      // 更新当前用户登陆状态
+      await props.asyncUpdateUserInfo();
+      this.setState({
+        isRender: true
+      });
     };
 
     render() {
       const { state } = this;
-      return (
-        <main className="app-container">
-          <BrowserRouter basename="/">
-            {renderRoutes(state.routeList)}
-          </BrowserRouter>
-        </main>
-      );
+      if (state.isRender) {
+        return (
+          <main className='app-container'>
+            <BrowserRouter basename='/'>
+              {renderRoutes(state.routeList)}
+            </BrowserRouter>
+          </main>
+        );
+      } else {
+        return <section>加载中!</section>;
+      }
     }
   }
 );

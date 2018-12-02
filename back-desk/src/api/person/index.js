@@ -6,7 +6,7 @@ import config from '../../config';
  *
  */
 export default {
-  // 获取用户列表
+  // 获取用户
   selectPersonList(data) {
     return ajax(
       'GET',
@@ -14,14 +14,14 @@ export default {
       data
     );
   },
-  // 获取用户详情
+  // 获取详情
   selectPersonById(id) {
     return ajax(
       'GET',
       `${config.API_ROOT}/person/${id}`
     );
   },
-  // 新增用户
+  // 新增
   insertPerson(data) {
     return ajax(
       'POST',
@@ -29,7 +29,7 @@ export default {
       data
     );
   },
-  // 修改用户
+  // 修改
   updatePersonById(id, data) {
     return ajax(
       'PUT',
@@ -37,7 +37,7 @@ export default {
       data
     );
   },
-  // 删除用户
+  // 删除
   deletePersonById(id) {
     return ajax(
       'DELETE',

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yyc.book.mapper.BookMapper">
 
-    <select id="selectBookList" parameterType="com.yyc.book.domain.BookVo" resultType="com.yyc.book.domain.BookVo">
+    <select id="selectBookList" resultType="com.yyc.book.domain.BookVo">
         SELECT b.*, b_c.name as bookCategoryName
         FROM book b, book_category b_c
         <where>

@@ -1,10 +1,9 @@
 package com.yyc.book.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yyc.book.domain.BookBorrow;
-import com.yyc.book.domain.BookBorrow;
+import com.yyc.book.domain.BookBorrowVo;
 import com.yyc.book.mapper.BookBorrowMapper;
 import com.yyc.book.service.IBookBorrowService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,16 +19,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BookBorrowServiceImpl extends ServiceImpl<BookBorrowMapper, BookBorrow> implements IBookBorrowService {
-    public IPage<BookBorrow> selectBookBorrowList(BookBorrow bookBorrow, int current, int size) {
-        // 构建查询条件
-        QueryWrapper<BookBorrow> queryWrapper = new QueryWrapper<>();
-        if (bookBorrow.getPersonId() != null) {
-            queryWrapper.eq("person_id", bookBorrow.getPersonId());
-        }
+    public IPage<BookBorrowVo> selectBookBorrowList(BookBorrowVo bookBorrowVo, int current, int size) {
         // 构建分页条件
-        Page<BookBorrow> page = new Page<>(current, size);
+        Page<BookBorrowVo> page = new Page<>(current, size);
+        page.setAsc("id");
         // 返回查询结果
-        return new BookBorrow().selectPage(page, queryWrapper);
+        return baseMapper.selectBookBorrowList(page, bookBorrowVo);
     }
 
     public BookBorrow selectBookBorrowById(Long id) {
