@@ -90,11 +90,11 @@ export default connect(
                 {props.form.getFieldDecorator('username', {
                   initialValue: state.formInitialValue.username,
                   rules: [
-                    { required: true, message: '请输入用户名！' },
+                    { required: true, message: '请输入用户名' },
                     { min: 2, max: 20, message: '用户名由2~20个字符组成！' }
                   ]
                 })(
-                  <Input type="text"/>
+                  <Input type="text" placeholder="请输入用户名"/>
                 )}
               </Form.Item>
 

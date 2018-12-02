@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Divider, Table, notification, Modal, Button, Col, Form, Row, Input } from 'antd';
+import { Divider, Table, Modal, Button, Col, Form, Row, Input } from 'antd';
 import api from '../../../../api';
 
 export default connect(
@@ -26,11 +26,11 @@ export default connect(
           { title: '最后修改日期', dataIndex: 'updatedAt' },
           {
             title: '操作', dataIndex: 'action', render: (text, record) => (
-              <span>
-              <Link to={`/user/person/operator/${record.id}`}>编辑</Link>
-              <Divider type="vertical"/>
-              <a onClick={() => this.deleteData(record)}>删除</a>
-            </span>
+              <div className="data-source-operation-container">
+                <Link to={`/user/person/operator/${record.id}`}>编辑</Link>
+                <Divider type="vertical"/>
+                <span onClick={() => this.deleteData(record)}>删除</span>
+              </div>
             )
           }
         ],
@@ -74,8 +74,9 @@ export default connect(
       };
 
       deleteData = (record) => {
-        const { state } = this;
         Modal.confirm({
+          okText: '确认',
+          cancelText: '取消',
           title: '确认删除此条记录？',
           content: record.username,
           onOk: async () => {

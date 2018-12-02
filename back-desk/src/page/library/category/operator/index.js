@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Input, Button, Radio } from 'antd';
+import { Form, Input, Button } from 'antd';
 import api from '../../../../api';
 
 export default connect(
@@ -83,18 +83,18 @@ export default connect(
         return (
           <section className="library-category-operator-container">
             <Form onSubmit={this.handleSubmit}>
-              {/* 用户名 */}
+              {/* 图书分类名称 */}
               <Form.Item
                 {...baseFormItemLayout}
                 label="图书分类名称">
                 {props.form.getFieldDecorator('name', {
                   initialValue: state.formInitialValue.name,
                   rules: [
-                    { required: true, message: '请输入图书分类名称！' },
-                    { min: 2, max: 20, message: '图书分类名称由2~20个字符组成！' }
+                    { required: true, message: '请输入图书分类名称' },
+                    { min: 2, max: 20, message: '图书分类名称由2~20个字符组成' }
                   ]
                 })(
-                  <Input type="text"/>
+                  <Input type="text" placeholder="请输入图书分类名称"/>
                 )}
               </Form.Item>
 
