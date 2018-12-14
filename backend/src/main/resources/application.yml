@@ -6,6 +6,8 @@ spring:
         url: jdbc:mysql://10.0.19.175:3306/javawebhomework?serverTimezone=CTT&useUnicode=true&characterEncoding=UTF-8
         username: root
         password: 123456
+    mvc:
+        dispatch-options-request: true
 
 # mybatis-plus配置
 mybatis-plus:
